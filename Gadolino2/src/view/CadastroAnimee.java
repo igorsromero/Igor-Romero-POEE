@@ -6,7 +6,14 @@
 package view;
 
 import br.com.gadolino2.model.DAO.CadastroDAO;
+import br.com.gadolino2.model.DAO.TipoDAO;
 import br.com.gadolino2.model.bean.Cadastro;
+import br.com.gadolino2.model.DAO.VozDAO;
+import br.com.gadolino2.model.bean.Tipo;
+import br.com.gadolino2.model.bean.Voz;
+import com.connection.ConnectionFactory;
+import com.sun.xml.internal.ws.api.message.Message;
+import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 
 /**
@@ -34,22 +41,16 @@ public class CadastroAnimee extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         txt_anime = new javax.swing.JTextField();
         txt_genero = new javax.swing.JTextField();
-        txt_id = new javax.swing.JTextField();
-        bnt_alterar = new javax.swing.JButton();
         bnt_salvar = new javax.swing.JButton();
-        bnt_remover = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txt_personagem = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtVoz = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
-
-        bnt_alterar.setText("Alterar");
-        bnt_alterar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bnt_alterarActionPerformed(evt);
-            }
-        });
 
         bnt_salvar.setText("Salvar");
         bnt_salvar.addActionListener(new java.awt.event.ActionListener() {
@@ -58,43 +59,43 @@ public class CadastroAnimee extends javax.swing.JFrame {
             }
         });
 
-        bnt_remover.setText("Remover");
-        bnt_remover.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bnt_removerActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("Anime:");
 
         jLabel2.setText("Genero:");
+
+        jLabel3.setText("Personagem:");
+
+        jLabel4.setText("Voz:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(152, 152, 152)
+                .addComponent(bnt_salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel4)
+                        .addGap(26, 26, 26)
+                        .addComponent(txtVoz))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(6, 6, 6))
+                            .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_anime)
-                            .addComponent(txt_genero))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(bnt_alterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bnt_salvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(bnt_remover))
-                .addGap(15, 15, 15))
+                            .addComponent(txt_anime, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                            .addComponent(txt_genero)
+                            .addComponent(txt_personagem))))
+                .addGap(96, 96, 96))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,30 +103,26 @@ public class CadastroAnimee extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_anime, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bnt_alterar)
                     .addComponent(jLabel1))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_genero, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(bnt_salvar)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(bnt_remover))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_genero, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txt_personagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtVoz, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(bnt_salvar)
+                .addGap(22, 22, 22))
         );
 
         txt_anime.getAccessibleContext().setAccessibleName("anime");
         txt_genero.getAccessibleContext().setAccessibleName("genero");
-        txt_id.getAccessibleContext().setAccessibleName("id");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -139,8 +136,9 @@ public class CadastroAnimee extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -150,40 +148,24 @@ public class CadastroAnimee extends javax.swing.JFrame {
         salvarCadastro();
     }//GEN-LAST:event_bnt_salvarActionPerformed
 
-    private void bnt_removerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnt_removerActionPerformed
-        CadastroDAO c = new CadastroDAO();
-        c.remove(Long.parseLong(txt_id.getText()));
-
-    }//GEN-LAST:event_bnt_removerActionPerformed
-
-    private void bnt_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnt_alterarActionPerformed
-        alterarCadastro();
-    }//GEN-LAST:event_bnt_alterarActionPerformed
-
     private void salvarCadastro() {
         Cadastro i = new Cadastro();
         CadastroDAO kk = new CadastroDAO();
-
+        Voz v = new Voz();
+        VozDAO vd = new VozDAO();
+        Tipo t = new Tipo();
+        TipoDAO td = new TipoDAO();
         i.setAnime(txt_anime.getText());
         i.setGenero(txt_genero.getText());
-
+        v.setPersonagem(txt_personagem.getText());
+        v.setVoz(txtVoz.getText());
+        t.setGenero(txt_genero.getText());
+        //c.remove(Long.parseLong(txt_id.getText()));
+        td.save(t);
+        vd.save(v);
         kk.save(i);
+        }
 
-    }
-
-    private void alterarCadastro() {
-        Cadastro i = new Cadastro();
-        CadastroDAO kk = new CadastroDAO();
-
-        i.setId(Long.parseLong(txt_id.getText()));
-        i.setAnime(txt_anime.getText());
-        i.setGenero(txt_genero.getText());
-        JOptionPane.showMessageDialog(this, i.getAnime());
-        JOptionPane.showMessageDialog(this, i.getGenero());
-        JOptionPane.showMessageDialog(this, String.valueOf(i.getId()));
-        
-        kk.update(i);
-    }
 
     /**
      * @param args the command line arguments
@@ -221,14 +203,15 @@ public class CadastroAnimee extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bnt_alterar;
-    private javax.swing.JButton bnt_remover;
     private javax.swing.JButton bnt_salvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField txtVoz;
     private javax.swing.JTextField txt_anime;
     private javax.swing.JTextField txt_genero;
-    private javax.swing.JTextField txt_id;
+    private javax.swing.JTextField txt_personagem;
     // End of variables declaration//GEN-END:variables
 }

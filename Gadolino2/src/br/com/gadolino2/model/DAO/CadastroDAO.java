@@ -9,6 +9,7 @@ import br.com.gadolino2.model.bean.Cadastro;
 import com.connection.ConnectionFactory;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.swing.JOptionPane;
 
 /**
@@ -34,7 +35,7 @@ public class CadastroDAO {
             em.close();
         }
 
-        return (Cadastro) cadastro;
+        return cadastro;
     }
       
        public Cadastro update(Cadastro cadastro) {
@@ -55,12 +56,12 @@ public class CadastroDAO {
         return cadastro;
     }
       
-     public List<Cadastro> FindAll() {
+     public List<Cadastro> FindAll(int inicio, int fim) {
         EntityManager em = new ConnectionFactory().getConnection();
         List<Cadastro> cadastro = null;
 
         try {
-            cadastro = em.createQuery("from cadastro p").getResultList();
+            cadastro = em.createQuery("from anime.cadastro p").getResultList();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao Atualizar " + e);
         } finally {
@@ -69,6 +70,30 @@ public class CadastroDAO {
 
         return cadastro;
     } 
+     
+        public Long quantidadeRegistros() {
+        EntityManager em = new ConnectionFactory().getConnection();
+        try {
+            Query query = em.createQuery("SELECT COUNT(*) FROM Cadastro cat");
+            return (Long) query.getSingleResult();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+     
+        public void ChecaCadastro(Cadastro cadastro) {
+        EntityManager em = new ConnectionFactory().getConnection();
+        List<Cadastro> carros = null;
+
+        try {
+            carros = em.createQuery("from Cadastro c where id =" + cadastro.getId()).getResultList();
+            JOptionPane.showMessageDialog(null, cadastro.getId());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao Atualizar " + e);
+        } finally {
+            em.close();
+        }
+    }
      
      public Cadastro remove(Long id) {
         EntityManager em = new ConnectionFactory().getConnection();
